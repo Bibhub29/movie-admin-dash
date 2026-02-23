@@ -1,12 +1,17 @@
-import axiosInstance from '../../services/axiosInstance';
-import { API_ENDPOINTS } from '../../services/apiEndpoints';
+﻿import api from '../../api/axios';
+import { API_ENDPOINTS } from '../../api/endpoints';
 
-export const login = async (payload) => {
-  const { data } = await axiosInstance.post(API_ENDPOINTS.auth.login, payload);
-  return data.data;
-};
+export async function login(payload) {
+  const response = await api.post(API_ENDPOINTS.auth.login, payload);
+  return response?.data?.data;
+}
 
-export const register = async (payload) => {
-  const { data } = await axiosInstance.post(API_ENDPOINTS.auth.register, payload);
-  return data.data;
-};
+export async function register(payload) {
+  const response = await api.post(API_ENDPOINTS.auth.register, payload);
+  return response?.data?.data;
+}
+
+export async function adminLogin(payload) {
+  const response = await api.post(API_ENDPOINTS.auth.adminLogin, payload);
+  return response?.data?.data;
+}

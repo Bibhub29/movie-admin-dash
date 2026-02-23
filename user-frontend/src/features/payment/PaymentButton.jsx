@@ -1,22 +1,31 @@
-import { useNavigate } from 'react-router-dom';
+﻿import { useNavigate } from 'react-router-dom';
 import Button from '../../components/ui/Button';
-import useRazorpay from './useRazorpay';
-import { verifyOrder } from './paymentService';
+import usePayment from './usePayment';
+import useAuth from '../../hooks/useAuth';
 
-export default function PaymentButton({ movieId, amount }) {
-  const { openCheckout } = useRazorpay();
+export default function PaymentButton({ movieId }) {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth();
+  const { purchaseMovie, loading } = usePayment();
 
-  const handlePurchase = async () => {
-    await openCheckout({
+  const handlePay = async () => {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: `/movies/${movieId}` } });
+      return;
+    }
+
+    await purchaseMovie({
       movieId,
-      amount,
-      onSuccess: async (payload) => {
-        const res = await verifyOrder(payload);
-        navigate(`/order-status/${payload.razorpay_order_id}`, { state: { result: res } });
+      prefill: {
+        name: user?.name,
+        email: user?.email
       }
     });
   };
 
-  return <Button onClick={handlePurchase}>Rent Now</Button>;
+  return (
+    <Button onClick={handlePay} disabled={loading || !movieId}>
+      {loading ? 'Processing...' : 'Rent Now'}
+    </Button>
+  );
 }

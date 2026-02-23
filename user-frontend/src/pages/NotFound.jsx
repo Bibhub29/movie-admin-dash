@@ -1,13 +1,21 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
+import Navbar from '../components/layout/Navbar';
+import Footer from '../components/layout/Footer';
+import Container from '../components/layout/Container';
+import Button from '../components/ui/Button';
 
 export default function NotFound() {
   return (
-    <div className="grid min-h-screen place-items-center">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold">404</h1>
-        <p className="mb-4">Page not found.</p>
-        <Link className="text-blue-600" to="/">Go Home</Link>
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <Container className="py-16 text-center">
+        <h1 className="text-5xl font-bold text-white">404</h1>
+        <p className="mt-2 text-slate-300">Page not found.</p>
+        <Link to="/" className="mt-6 inline-block">
+          <Button>Go Home</Button>
+        </Link>
+      </Container>
+      <Footer />
+    </>
   );
 }

@@ -1,12 +1,12 @@
-import axiosInstance from '../../services/axiosInstance';
-import { API_ENDPOINTS } from '../../services/apiEndpoints';
+﻿import api from '../../api/axios';
+import { API_ENDPOINTS } from '../../api/endpoints';
 
-export const fetchMovies = async (params = {}) => {
-  const { data } = await axiosInstance.get(API_ENDPOINTS.movies.list, { params });
-  return data.data;
-};
+export async function fetchMovies(params = {}) {
+  const response = await api.get(API_ENDPOINTS.movies.list, { params });
+  return response?.data?.data;
+}
 
-export const fetchMovieDetails = async (movieId) => {
-  const { data } = await axiosInstance.get(API_ENDPOINTS.movies.detail(movieId));
-  return data.data;
-};
+export async function fetchMovieDetails(movieId) {
+  const response = await api.get(API_ENDPOINTS.movies.detail(movieId));
+  return response?.data?.data;
+}

@@ -1,7 +1,7 @@
-import axiosInstance from '../../services/axiosInstance';
-import { API_ENDPOINTS } from '../../services/apiEndpoints';
+﻿import api from '../../api/axios';
+import { API_ENDPOINTS } from '../../api/endpoints';
 
-export const getCategories = async () => {
-  const { data } = await axiosInstance.get(API_ENDPOINTS.categories);
-  return data.data || [];
-};
+export async function getCategories() {
+  const response = await api.get(API_ENDPOINTS.categories);
+  return response?.data?.data || [];
+}

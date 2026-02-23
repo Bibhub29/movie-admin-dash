@@ -1,32 +1,31 @@
 ﻿import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/layout/Navbar';
-import Footer from '../../components/layout/Footer';
+import { useNavigate } from 'react-router-dom';
 import Container from '../../components/layout/Container';
 import Card from '../../components/ui/Card';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/Footer';
 import useAuth from '../../hooks/useAuth';
 import { useToast } from '../../context/ToastContext';
 
-export default function Register() {
-  const { register } = useAuth();
+export default function AdminLogin() {
+  const { loginAdmin } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (loading) return;
-
     setLoading(true);
+
     try {
-      const authData = await register(form);
-      showToast({ type: 'success', title: 'Registration successful' });
-      navigate(authData?.user?.role === 'admin' ? '/admin' : '/movies', { replace: true });
+      await loginAdmin(form);
+      showToast({ type: 'success', title: 'Admin logged in' });
+      navigate('/admin');
     } catch (error) {
-      showToast({ type: 'error', title: 'Registration failed', message: error?.response?.data?.message || error?.message || 'Unable to register' });
+      showToast({ type: 'error', title: 'Admin login failed', message: error?.response?.data?.message || 'Invalid credentials' });
     } finally {
       setLoading(false);
     }
@@ -37,14 +36,8 @@ export default function Register() {
       <Navbar />
       <Container className="py-8">
         <Card className="mx-auto max-w-md">
-          <h1 className="mb-4 text-2xl font-semibold text-white">Register</h1>
+          <h1 className="mb-4 text-2xl font-semibold text-white">Admin Login</h1>
           <form className="space-y-4" onSubmit={onSubmit}>
-            <Input
-              label="Name"
-              value={form.name}
-              onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-              required
-            />
             <Input
               label="Email"
               type="email"
@@ -59,13 +52,8 @@ export default function Register() {
               onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
               required
             />
-            <Button type="submit" disabled={loading} className="w-full">
-              {loading ? 'Creating...' : 'Create account'}
-            </Button>
+            <Button type="submit" disabled={loading} className="w-full">{loading ? 'Signing in...' : 'Login as Admin'}</Button>
           </form>
-          <p className="mt-4 text-sm text-slate-300">
-            Already registered? <Link className="text-red-300" to="/login">Login</Link>
-          </p>
         </Card>
       </Container>
       <Footer />

@@ -18,6 +18,8 @@ export const API_ENDPOINTS = {
   user: {
     profile: '/api/auth/me',
     myMovies: '/api/user/my-movies',
+    watch: (id) => `/api/user/watch/${id}`,
+    watchStream: (id) => `/api/user/watch/${id}/stream`,
     transactions: '/api/admin/purchases'
   }
 };

@@ -1,7 +1,10 @@
-import { useMemo } from 'react';
-import { getToken } from '../services/tokenService';
+﻿import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function useAuth() {
-  const token = getToken();
-  return useMemo(() => ({ isAuthenticated: Boolean(token), token }), [token]);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
 }

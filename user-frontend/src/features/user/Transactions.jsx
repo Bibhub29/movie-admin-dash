@@ -1,16 +1,17 @@
-import Navbar from '../../components/layout/Navbar';
+﻿import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
 import Container from '../../components/layout/Container';
+import Card from '../../components/ui/Card';
 
 export default function Transactions() {
   return (
     <>
       <Navbar />
-      <Container>
-        <div className="my-8 rounded bg-white p-6 shadow">
-          <h1 className="text-xl font-semibold">Transactions</h1>
-          <p className="text-slate-600">Use order status endpoint for each payment transaction.</p>
-        </div>
+      <Container className="py-8">
+        <Card>
+          <h1 className="mb-2 text-xl font-semibold text-white">Transactions</h1>
+          <p className="text-slate-300">Track individual order statuses from purchase confirmations.</p>
+        </Card>
       </Container>
       <Footer />
     </>
